@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#060911"><title>SIRIUS TR JOURNAL</title>
+<style>
+:root{--bg:#060911;--c:#0b101d;--c2:#0f1626;--b:rgba(255,255,255,.07);--t:#e6e9f0;--m:#7c869b;--g:#10b981;--r:#f43f5e;--y:#f59e0b;--bl:#3b82f6;color-scheme:dark}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--t);font:13px/1.45 Inter,"Segoe UI",system-ui,sans-serif;font-variant-numeric:tabular-nums;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+button,input,select,textarea{font:inherit;color:inherit}
+.app{display:grid;grid-template-columns:208px minmax(0,1fr);min-height:100vh}
+.nav{border-right:1px solid var(--b);padding:18px 10px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:2px}
+.brand{font-weight:650;letter-spacing:.02em;padding:0 10px 16px;font-size:14px}.brand small{display:block;color:var(--m);font-weight:400;font-size:11px}
+.nav button{background:none;border:0;text-align:left;padding:8px 10px;border-radius:6px;color:var(--m);cursor:pointer}
+.nav button:hover{background:var(--c)}.nav button.on{background:var(--c2);color:var(--t);box-shadow:inset 2px 0 var(--y)}
+main{padding:16px 22px 40px;min-width:0}
+.top{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.top h1{font-size:16px;font-weight:600;margin-right:auto}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:10px}
+.chip,.seg button,.btn{background:var(--c);border:1px solid var(--b);border-radius:6px;padding:6px 11px;cursor:pointer;white-space:nowrap;color:var(--m)}
+.chip.on,.seg button.on{color:var(--t);border-color:rgba(245,158,11,.5);background:var(--c2)}
+.seg{display:inline-flex;gap:4px;margin-bottom:14px}
+.btn.p{background:var(--y);color:#1a1204;border-color:var(--y);font-weight:600}.btn.g{background:var(--g);border-color:var(--g);color:#04130d;font-weight:600}.btn.r{color:var(--r)}
+.card{background:var(--c);border:1px solid var(--b);border-radius:8px;padding:14px;min-width:0}
+.card h3{font-size:12px;font-weight:500;color:var(--m);margin-bottom:10px}
+.grid{display:grid;gap:10px;margin-bottom:10px}.k4{grid-template-columns:repeat(4,1fr)}.k2{grid-template-columns:1fr 1fr}.k3{grid-template-columns:repeat(3,1fr)}.k21{grid-template-columns:2fr 1fr}
+.kv{font-size:22px;font-weight:600;letter-spacing:-.01em}.sub{color:var(--m);font-size:12px;margin-top:2px}
+.g{color:var(--g)}.r{color:var(--r)}.y{color:var(--y)}.bl{color:var(--bl)}
+.bar{height:4px;background:var(--b);border-radius:2px;overflow:hidden;margin-top:6px}.bar i{display:block;height:100%}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--b)}.row:last-child{border:0}
+.tw{overflow-x:auto;border:1px solid var(--b);border-radius:8px;background:var(--c)}
+table{border-collapse:separate;border-spacing:0;width:100%;white-space:nowrap}
+th{font-weight:500;color:var(--m);text-align:left;padding:9px 12px;border-bottom:1px solid var(--b);font-size:12px}
+td{padding:9px 12px;border-bottom:1px solid var(--b)}tbody tr{cursor:pointer}tbody tr:hover td{background:var(--c2)}
+.s1{position:sticky;right:40px;background:var(--c);text-align:right}.s2{position:sticky;right:0;background:var(--c);width:40px}
+.tag{display:inline-flex;white-space:nowrap;padding:1px 7px;border:1px solid var(--b);border-radius:4px;color:var(--m);font-size:11.5px;margin-right:4px}
+.bd{display:inline-flex;white-space:nowrap;padding:1px 8px;border-radius:4px;font-size:11.5px;font-weight:600}
+.bd.g{background:rgba(16,185,129,.14)}.bd.r{background:rgba(244,63,94,.14)}.bd.y{background:rgba(245,158,11,.14)}.bd.bl{background:rgba(59,130,246,.14)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal div{min-height:54px;border-radius:5px;padding:4px 6px;font-size:11px;background:var(--c2);color:var(--m)}
+.cal .w{min-height:0;background:none;text-align:center}.cal .pg{background:rgba(16,185,129,.16);color:var(--g)}.cal .pr{background:rgba(244,63,94,.16);color:var(--r)}
+.cal b{display:block;font-size:12px}
+.live{border-left:2px solid var(--bl)}
+.acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.acts .btn{padding:5px 9px;font-size:12px}
+#modal{position:fixed;inset:0;background:rgba(3,5,10,.78);display:none;overflow:auto;padding:20px;z-index:9}
+#modal.on{display:block}.mb{max-width:760px;margin:0 auto;background:var(--c);border:1px solid var(--b);border-radius:10px;padding:18px}
+.mb h2{font-size:15px;margin-bottom:14px;display:flex;justify-content:space-between}
+.f{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.f label{display:block;color:var(--m);font-size:12px}
+.f input,.f select,.f textarea{width:100%;background:var(--bg);border:1px solid var(--b);border-radius:6px;padding:7px 9px;margin-top:3px}
+.f .w2{grid-column:1/-1}.tg{display:flex;gap:6px;margin-top:3px}.tg .btn{flex:1;text-align:center}
+.tg .btn.on.g{background:var(--g);color:#04130d}.tg .btn.on.r{background:var(--r);color:#fff;border-color:var(--r)}.tg .btn.on.y{background:var(--y);color:#1a1204}.tg .btn.on.bl{background:var(--bl);color:#fff}
+.tg .btn.on{border-color:transparent}
+img.shot,video{width:100%;border-radius:6px;border:1px solid var(--b);max-height:62vh;object-fit:contain;background:#000}
+.empty{color:var(--m);padding:22px;text-align:center}
+input[type=text],input[type=password],input[type=number],input[type=date],input[type=time]{background:var(--bg);border:1px solid var(--b);border-radius:6px;padding:7px 9px;width:100%}
+@media(max-width:820px){.app{grid-template-columns:minmax(0,1fr)}.nav{position:fixed;bottom:0;left:0;right:0;top:auto;height:auto;flex-direction:row;overflow-x:auto;background:var(--bg);z-index:5;padding:6px;border-top:1px solid var(--b);border-right:0}.brand{display:none}.nav button{white-space:nowrap;box-shadow:none!important}main{padding:12px 12px 80px}.k4,.k3{grid-template-columns:1fr 1fr}.k2,.k21,.f{grid-template-columns:1fr}.kv{font-size:19px}}
+html,body{overflow-x:hidden;max-width:100%}code{display:block;white-space:pre-wrap;word-break:break-all;font-size:11px;margin-top:6px}.card,.grid>*{min-width:0;overflow-wrap:anywhere}.f>*{min-width:0}@media(max-width:820px){.nav{padding-bottom:calc(6px + env(safe-area-inset-bottom))}}
+#lock{position:fixed;inset:0;background:var(--bg);z-index:99;display:none;align-items:center;justify-content:center}#lock.on{display:flex}
+.lk{text-align:center;width:min(320px,86vw)}
+.dots{display:flex;justify-content:center;gap:14px;margin-bottom:26px}.dots i{width:12px;height:12px;border-radius:50%;border:1px solid var(--m)}.dots i.on{background:var(--y);border-color:var(--y)}
+.dots.sh{animation:sh .3s}@keyframes sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.pad button{height:58px;background:var(--c);border:1px solid var(--b);border-radius:8px;font-size:20px;cursor:pointer}.pad button:active{background:var(--c2);border-color:rgba(245,158,11,.5)}
+</style></head><body>
+<div class="app"><nav class="nav" id="nav"></nav><main id="main"></main></div><div id="modal"></div><div id="lock"></div>
+<script>
+const $=s=>document.querySelector(s),uid=()=>Math.random().toString(36).slice(2,9);
+const SES=['Азия','Франкфурт','Лондон','Нью-Йорк'],PSY=['По системе (A+ сетап)','FOMO (Погоня за ценой)','Тильт / Отыгрыш','Ранний выход (Страх)','Жадность (Завышен риск)'],
+DAYS=['Понедельник','Вторник','Среда','Четверг','Пятница'],MON=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+const seed=()=>({acc:[{id:'a1',name:'Личный Счет',bal:10000,login:'5081234'},{id:'a2',name:'FTMO Prop 100k',bal:100000,login:'9910452'},{id:'a3',name:'Разгон Депозита',bal:500,login:'7741290'}],trades:[],
+ins:{'Металлы и Сырье':'XAUUSD XAGUSD XPTUSD USOIL UKOIL NATGAS'.split(' '),'Индексы':'NAS100 US500 US30 GER40 UK100 JPN225 DXY'.split(' '),
+'Forex':'EURUSD GBPUSD USDJPY USDCHF USDCAD AUDUSD NZDUSD EURGBP EURJPY GBPJPY EURCHF AUDJPY CADJPY GBPAUD EURAUD GBPCAD CHFJPY NZDJPY AUDCAD AUDNZD'.split(' '),'Crypto':['BTCUSD','ETHUSD','SOLUSD']},
+strat:['Дисбаланс 1H','Дисбаланс 4H','Дисбаланс D','Ликвидность 1H фрактала','Франкфурт Хай лоу + FVG (H1-H4-D)','Рейд ликвидности 1H','Ликвидность 1H фрак + FVG','Азия Хай лоу + Фрактал (H1-H4-D)','Азия Хай лоу + FVG (H1-H4-D)'],
+model:['Инверсия 15м','Инверсия 3м','Инверсия 5м','Сильное поглощение М5','Слом 15м','Слом 1Н','Слом 3м','Слом 5м','Шифт 1Н','Шифт 3м','Шифт 5м'],bot:{tok:'',chat:'',ok:0,off:0}});
+let db=JSON.parse(localStorage.sirius||'null')||seed();const save=()=>localStorage.sirius=JSON.stringify(db);
+const S={acc:'all',per:'all',tab:'dash',cm:new Date(),f:{},eq:'usd'};let F={},timer=300;
+const idb=new Promise(r=>{const q=indexedDB.open('sirius',1);q.onupgradeneeded=()=>q.result.createObjectStore('m');q.onsuccess=()=>r(q.result)});
+const mset=async(k,v)=>(await idb).transaction('m','readwrite').objectStore('m').put(v,k);
+const mget=async k=>{const d=await idb;return new Promise(r=>{const q=d.transaction('m').objectStore('m').get(k);q.onsuccess=()=>r(q.result)})};
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const m=v=>(v>=0?'+':'−')+'$'+Math.abs(v).toLocaleString('en',{maximumFractionDigits:2}),cl=v=>v>0?'g':v<0?'r':'',RC={TP:'g',SL:'r',BU:'y',OPEN:'bl'};
+const accName=id=>(db.acc.find(a=>a.id==id)||{name:'—'}).name,toast=t=>alert(t);
+const scope=()=>db.trades.filter(t=>S.acc=='all'||t.acc==S.acc);
+function inPer(t){const n=new Date(),d=new Date(t.date+'T00:00'),p=S.per,a=iso(n);return p=='all'||(p=='day'&&t.date==a)||(p=='week'&&(n-d)/864e5<7&&d<=n)||(p=='month'&&t.date.slice(0,7)==a.slice(0,7))||(p=='year'&&t.date.slice(0,4)==a.slice(0,4))}
+const sortT=l=>l.sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+const closed=(all)=>sortT(scope().filter(t=>t.res!='OPEN'&&(all||inPer(t))));
+const rOf=t=>t.res!='OPEN'&&t.risk>0?t.pnl/t.risk:null,fR=x=>x==null?'—':(x>=0?'+':'−')+Math.abs(x).toFixed(1)+'R';
+function stat(L){const tp=L.filter(t=>t.res=='TP').length,sl=L.filter(t=>t.res=='SL').length,bu=L.filter(t=>t.res=='BU').length,pnl=L.reduce((a,t)=>a+t.pnl,0),
+gw=L.filter(t=>t.pnl>0).reduce((a,t)=>a+t.pnl,0),gl=-L.filter(t=>t.pnl<0).reduce((a,t)=>a+t.pnl,0);
+const rl=L.map(rOf).filter(x=>x!=null);return{R:rl.reduce((a,x)=>a+x,0),Rn:rl.length,n:L.length,tp,sl,bu,pnl,wr:tp+sl?tp/(tp+sl)*100:0,pf:gl?gw/gl:gw?99:0,rr:L.length?L.reduce((a,t)=>a+(+t.rr||0),0)/L.length:0}}
+const grp=(L,f)=>{const o={};L.forEach(t=>{(o[f(t)]=o[f(t)]||[]).push(t)});return Object.entries(o).map(([k,v])=>({k,...stat(v)}))};
+const base=()=>db.acc.filter(a=>S.acc=='all'||a.id==S.acc).reduce((a,x)=>a+x.bal,0);
+const bar=(p,c)=>`<div class="bar"><i style="width:${Math.max(0,Math.min(100,p))}%;background:var(--${c})"></i></div>`;
+const kpi=(l,v,s,c='')=>`<div class="card"><h3>${l}</h3><div class="kv ${c}">${v}</div><div class="sub">${s||''}</div></div>`;
+function pnlOf(res,risk,rr,fee,man){if(man!==''&&man!=null&&!isNaN(man))return +man;risk=+risk||0;fee=+fee||0;return res=='TP'?risk*rr-fee:res=='SL'?-risk-fee:res=='BU'?-fee:0}
+/* ---------- views ---------- */
+const TABS=[['dash','Дашборд'],['journal','Журнал'],['open','Открытые сделки'],['psy','Психология & Дни/Часы'],['cons','Конструктор'],['set','Настройки APK & Бот']];
+function render(){
+$('#nav').innerHTML=`<div class="brand">SIRIUS TR JOURNAL<small>Trading analytics</small></div>`+TABS.map(([k,l])=>`<button class="${S.tab==k?'on':''}" onclick="S.tab='${k}';render()">${l}</button>`).join('');
+const chips=`<div class="chips"><button class="chip ${S.acc=='all'?'on':''}" onclick="S.acc='all';render()">🌐 Все счета</button>`+db.acc.map(a=>`<button class="chip ${S.acc==a.id?'on':''}" onclick="S.acc='${a.id}';render()">${a.id=='a2'?'🏆':a.id=='a3'?'🚀':'💼'} ${a.name}<span style="color:var(--m)"> · ${a.login}</span></button>`).join('')+`<button class="chip" onclick="addAcc()">+ Новый счет (MT5 ID)</button></div>`;
+const per=(S.tab=='dash'||S.tab=='psy')?`<div class="seg">${[['day','День'],['week','Неделя'],['month','Месяц'],['year','Год'],['all','Все время']].map(([k,l])=>`<button class="${S.per==k?'on':''}" onclick="S.per='${k}';render()">${l}</button>`).join('')}</div>`:'';
+const bot=db.bot.ok?`<span class="bd g">✅ Бот Подключен</span>`:`<span class="bd y">Бот не подключен</span>`;
+$('#main').innerHTML=`<div class="top"><h1>${TABS.find(t=>t[0]==S.tab)[1]}</h1>${bot}<span class="sub">Синхр. через ${String(timer/60|0).padStart(2,'0')}:${String(timer%60).padStart(2,'0')}</span><button class="btn p" onclick="tradeForm()">+ Сделка</button></div>${chips}${per}`+V[S.tab]();
+}
+const V={};
+V.dash=()=>{const L=closed(),s=stat(L),all=stat(closed(1)),bal=snaps().length?snaps().reduce((t,x)=>t+(+x.s.bal||0),0):base()+all.pnl,b0=base(),
+lg=stat(L.filter(t=>t.dir=='BUY')),sh=stat(L.filter(t=>t.dir=='SELL')),pairs=grp(L,t=>t.sym).sort((a,b)=>b.pnl-a.pnl);
+let eq=b0,pk=b0,dd=0,ddp=0;closed(1).forEach(t=>{eq+=t.pnl;pk=Math.max(pk,eq);if(pk-eq>dd){dd=pk-eq;ddp=dd/pk*100}});
+return terminal()+openBlock(1)+`<div class="grid k4">${kpi('Чистая прибыль',m(s.pnl),`Депозит ${(b0?s.pnl/b0*100:0).toFixed(2)}% · Баланс $${bal.toLocaleString('en',{maximumFractionDigits:0})}`,cl(s.pnl))}
+${kpi('Win Rate',s.wr.toFixed(1)+'%',`${s.n} сделок · <span class=g>${s.tp} TP</span> · <span class=r>${s.sl} SL</span> · <span class=y>${s.bu} БУ</span>`)}
+${kpi('Profit Factor',s.pf.toFixed(2),'Средний RR 1:'+s.rr.toFixed(2))}
+${kpi('Макс. просадка','−'+ddp.toFixed(2)+'%','−$'+dd.toFixed(0)+' · Лучшая пара: '+(pairs[0]&&pairs[0].pnl>0?pairs[0].k:'—'),'r')}</div>
+<div class="grid k2">${kpi('Итого R',fR(s.Rn?s.R:null),'по '+s.Rn+' сделкам с известным риском',cl(s.R))}${kpi('Средний R на сделку',fR(s.Rn?s.R/s.Rn:null),'ожидание на сделку',cl(s.R))}</div><div class="grid k21"><div class="card"><h3 style="display:flex;justify-content:space-between;align-items:center">Кривая доходности<span class=seg style="margin:0"><button class="${S.eq!='r'?'on':''}" onclick="S.eq='usd';render()">$</button><button class="${S.eq=='r'?'on':''}" onclick="S.eq='r';render()">R</button></span></h3>${equity(L,b0)}</div>
+<div class="card"><h3>Long vs Short</h3>${[['BUY / LONG',lg,'g'],['SELL / SHORT',sh,'r']].map(([n,x,c])=>`<div class="row"><div><span class="${c}"><b>${n}</b></span><div class="sub">${x.n} сделок · WR ${x.wr.toFixed(1)}%</div>${bar(x.wr,c)}</div><b class="${cl(x.pnl)}">${m(x.pnl)}</b></div>`).join('')}</div></div>
+<div class="grid k4">${SES.map(n=>{const x=stat(L.filter(t=>t.session==n)),k=stat(L.filter(t=>t.session==n&&t.kz));return`<div class="card"><h3>${n}</h3><div class="kv ${cl(x.pnl)}">${m(x.pnl)}</div><div class="sub">WR ${x.wr.toFixed(0)}% · ${x.n} сделок · ${fR(x.Rn?x.R:null)}</div>${bar(x.wr,'bl')}<div class=sub style="margin-top:4px">Kill Zone: ${k.n} сд. · WR ${k.wr.toFixed(0)}%</div></div>`}).join('')}</div>
+<div class="grid k21"><div class="card"><h3>PnL Календарь</h3>${calendar()}</div><div class="card"><h3>Эффективность стратегий и моделей входа</h3>${rank(L)}</div></div>`};
+function equity(L,b0){if(L.length<1)return'<div class=empty>Нет закрытых сделок за период</div>';let e=S.eq=='r'?0:b0;const p=[e,...L.map(t=>e+=S.eq=='r'?(rOf(t)||0):t.pnl)],mn=Math.min(...p),mx=Math.max(...p),r=mx-mn||1,pts=p.map((v,i)=>`${(i/(p.length-1||1)*600).toFixed(1)},${(170-(v-mn)/r*160).toFixed(1)}`).join(' ');
+return`<svg viewBox="0 0 600 180" preserveAspectRatio="none" style="width:100%;height:190px"><polygon points="0,180 ${pts} 600,180" fill="rgba(16,185,129,.1)"/><polyline points="${pts}" fill="none" stroke="#10b981" stroke-width="1.6" vector-effect="non-scaling-stroke"/></svg><div class="sub" style="display:flex;justify-content:space-between"><span>${S.eq=='r'?mn.toFixed(1)+'R':'$'+mn.toFixed(0)}</span><span>${S.eq=='r'?mx.toFixed(1)+'R':'$'+mx.toFixed(0)}</span></div>`}
+function calendar(){const y=S.cm.getFullYear(),mo=S.cm.getMonth(),D={};closed(1).forEach(t=>{const d=D[t.date]=D[t.date]||{p:0,n:0};d.p+=t.pnl;d.n++});
+const f=(new Date(y,mo,1).getDay()+6)%7,nd=new Date(y,mo+1,0).getDate();let h=`<div class="row" style="border:0"><button class="btn" onclick="S.cm=new Date(${y},${mo-1},1);render()">‹</button><b>${MON[mo]} ${y}</b><button class="btn" onclick="S.cm=new Date(${y},${mo+1},1);render()">›</button></div><div class="cal">`+['Пн','Вт','Ср','Чт','Пт','Сб','Вс'].map(d=>`<div class=w>${d}</div>`).join('')+'<div style="background:none"></div>'.repeat(f);
+for(let d=1;d<=nd;d++){const k=y+'-'+String(mo+1).padStart(2,'0')+'-'+String(d).padStart(2,'0'),x=D[k];h+=`<div class="${x?x.p>=0?'pg':'pr':''}">${d}${x?`<b>${m(x.p)}</b>${x.n} сд.`:''}</div>`}return h+'</div>'}
+function rank(L){if(!L.length)return'<div class=empty>Нет данных</div>';const blk=(t,f)=>`<div class=sub style="margin:6px 0 2px">${t}</div>`+grp(L,f).sort((a,b)=>b.pnl-a.pnl).slice(0,5).map(x=>`<div class=row><div style="min-width:0"><span class=tag>${x.k}</span><div class=sub>${x.n} сд. · WR ${x.wr.toFixed(0)}%</div></div><b class="${cl(x.pnl)}">${m(x.pnl)}</b></div>`).join('');return blk('Стратегии',t=>t.strat)+blk('Модели входа',t=>t.model)}
+/* open trades */
+const snaps=()=>{const Z=db.snap||{};return db.acc.filter(a=>(S.acc=='all'||a.id==S.acc)&&Z[a.login]&&Z[a.login].bal!=null).map(a=>({a,s:Z[a.login]}))};
+const ago=ts=>{const x=(Date.now()-ts)/6e4|0;return x<1?'только что':x<60?x+' мин назад':(x/60|0)+' ч назад'};
+function terminal(){const L=snaps();if(!L.length)return db.bot.ok?`<div class=card style="margin-bottom:10px"><h3>Терминал MT5</h3><div class=sub>Данных от робота пока нет. Установите советник SiriusSync на график MT5 и нажмите «Синхронизировать сейчас».</div></div>`:'';
+const sm=k=>L.reduce((t,x)=>t+(+x.s[k]||0),0),age=Math.min(...L.map(x=>x.s.ts||0)),O=L.flatMap(x=>(x.s.ord||[]).map(o=>({...o,n:x.a.name}))),mo=v=>'$'+v.toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2});
+return `<div class=card style="margin-bottom:10px"><h3>Терминал MT5 · обновлено ${ago(age)}</h3><div class="grid k4" style="margin:0 0 6px"><div><div class=sub>Баланс</div><div class=kv>${mo(sm('bal'))}</div></div><div><div class=sub>Эквити</div><div class=kv>${mo(sm('eq'))}</div></div><div><div class=sub>Плав. P/L</div><div class="kv ${cl(sm('pl'))}">${m(sm('pl'))}</div></div><div><div class=sub>Маржа / Свободно</div><div class=kv style="font-size:16px">${mo(sm('mg'))} / ${mo(sm('fr'))}</div></div></div><div class=sub style="margin:8px 0 2px">Отложенные ордера (лимитки): ${O.length}</div>`+(O.length?O.map(o=>`<div class=row><span><span class="bd ${/BUY/.test(o.t)?'g':'r'}">${o.t}</span> <b>${o.s}</b> ${o.v}</span><span class=sub>@ ${o.p} · SL ${o.sl||'—'} · TP ${o.tp||'—'}${L.length>1?' · '+o.n:''}</span></div>`).join(''):'<div class=sub>Нет</div>')+'</div>'}
+const openBlock=c=>{const O=scope().filter(t=>t.res=='OPEN');if(c&&!O.length)return'';return`<div class="card live" style="margin-bottom:10px"><h3>Открытые сделки (Live) · ${O.length}</h3>${O.length?O.map(openCard).join(''):'<div class=empty>Нет открытых позиций. Добавьте сделку со статусом OPEN или дождитесь сигнала от бота.</div>'}</div>`};
+const f2=x=>x==null?'—':x;
+function openCard(t){let h=`<div class="row" style="display:block;padding:12px 0"><div class="row" style="border:0;padding:0"><div><b>${t.sym}</b> <span class="bd ${t.dir=='BUY'?'g':'r'}">${t.dir}</span> <span class=tag>${t.strat}</span><span class=tag>${t.model}</span></div><span class=sub>${accName(t.acc)}${t.part?` · зафиксировано ${m(t.part)}`:''}${t.be?' · в БУ':''}</span></div>`;
+if(t.tk)return h+`<div class=sub style="margin-top:6px">Объём ${f2(t.vol)} · Вход ${f2(t.ent)} · SL ${t.sl||'—'} · TP ${t.tp||'—'} · Риск $${(+t.risk).toFixed(2)} · RR 1:${t.rr} · Плав. P/L <b class="${cl(+t.fl)}">${m(+t.fl||0)}</b> · управляется MT5</div></div>`;
+return h+`<div class=sub style="margin-top:4px">Риск $${t.risk} · RR 1:${t.rr}</div><div class=acts><button class="btn g" onclick="cls('${t.id}','half')">✂️ Снять 50% (1:1) + Перевод в БУ</button><button class="btn g" onclick="cls('${t.id}','tp')">✓ Закрыть по TP</button><button class="btn" style="color:var(--y)" onclick="cls('${t.id}','bu')">В БУ (0$)</button><button class="btn r" onclick="cls('${t.id}','sl')">✕ Закрыть по SL</button><button class="btn" onclick="cls('${t.id}','c')">Свой RR / $</button></div></div>`}
+V.open=()=>terminal()+openBlock();
+function cls(id,k){const t=db.trades.find(x=>x.id==id),rem=t.rem||1,part=t.part||0,fee=+t.fee||0,r=+t.risk||0;
+if(k=='half'){if(t.part)return toast('Уже снято 50%');t.part=r*.5;t.rem=.5;t.be=1;save();return render()}
+if(k=='tp'){t.res='TP';t.pnl=part+rem*r*t.rr-fee}
+else if(k=='sl'){t.pnl=part-(t.be?0:rem*r)-fee;t.res=t.be?'BU':'SL'}
+else if(k=='bu'){t.res='BU';t.pnl=part-fee}
+else{const v=prompt('Введите RR (например 2.5) или сумму в $ (например $120 или $-40):');if(!v)return;t.pnl=v.startsWith('$')?+v.slice(1):part+rem*r*(+v)-fee;t.res=t.pnl>0?'TP':t.pnl<0?'SL':'BU'}
+t.pnl=+t.pnl.toFixed(2);save();render()}
+/* journal */
+const fl=()=>{const f=S.f;return sortT(scope().filter(t=>(!f.sym||t.sym==f.sym)&&(!f.strat||t.strat==f.strat)&&(!f.model||t.model==f.model)&&(!f.res||t.res==f.res)&&(!f.from||t.date>=f.from)&&(!f.to||t.date<=f.to))).reverse()};
+V.journal=()=>{const A=scope(),f=S.f,L=fl(),u=k=>[...new Set(A.map(t=>t[k]))].sort(),sel=(k,l,a)=>`<select onchange="S.f.${k}=this.value;render()"><option value="">${l}: все</option>${a.map(x=>`<option ${f[k]==x?'selected':''}>${x}</option>`).join('')}</select>`,s0=stat(L.filter(t=>t.res!='OPEN'));
+const fb=`<div class=card style="margin-bottom:10px"><div class=f>${sel('sym','Пара',u('sym'))}${sel('res','Результат',['TP','SL','BU','OPEN'])}${sel('strat','Стратегия',u('strat'))}${sel('model','Модель',u('model'))}<label>С даты<input type=date value="${f.from||''}" onchange="S.f.from=this.value;render()"></label><label>По дату<input type=date value="${f.to||''}" onchange="S.f.to=this.value;render()"></label></div><div class=acts><button class=btn onclick="S.f={};render()">Сбросить</button><button class=btn onclick="csv()">⬇ CSV (Excel)</button><span class=sub style="align-self:center">${L.length} сделок · WR ${s0.wr.toFixed(0)}% · <b class="${cl(s0.pnl)}">${m(s0.pnl)}</b> · <b class="${cl(s0.R)}">${fR(s0.Rn?s0.R:null)}</b></span></div></div>`;
+if(!L.length)return fb+'<div class=empty>Нет сделок по выбранным фильтрам.</div>';
+return fb+`<div class=tw><table><thead><tr><th>Дата</th><th>Счет</th><th>Пара</th><th>Напр.</th><th>Стратегия / Модель</th><th>Сессия</th><th>Итог</th><th>План RR</th><th>R</th><th class=s1>PnL $</th><th class=s2></th></tr></thead><tbody>`+L.map(t=>`<tr onclick="review('${t.id}')"><td>${t.date} ${t.time}</td><td>${accName(t.acc)}</td><td><b>${t.sym}</b></td><td><span class="bd ${t.dir=='BUY'?'g':'r'}">${t.dir=='BUY'?'BUY':'SELL'}</span></td><td><span class=tag>${t.strat}</span><span class=tag>${t.model}</span></td><td>${t.session}${t.kz?' <span class="bd y">KZ</span>':''}</td><td><span class="bd ${RC[t.res]}">${t.res=='BU'?'БУ':t.res}</span></td><td>1:${t.rr}</td><td class="${cl(rOf(t))}"><b>${fR(rOf(t))}</b></td><td class="s1 ${cl(t.pnl)}"><b>${t.res=='OPEN'?'—':m(t.pnl)}</b></td><td class=s2><button class="btn" style="padding:2px 7px" onclick="event.stopPropagation();del('${t.id}')">✕</button></td></tr>`).join('')+`</tbody></table></div>`};
+function csv(){const q=x=>'"'+String(x??'').replace(/"/g,'""')+'"',n=x=>x===''||x==null?'':String(x).replace('.',','),rows=[['Дата','Время','Счет','MT5','Пара','Напр.','Стратегия','Модель','Сессия','KZ','Психология','Итог','PnL $','Риск $','R','План RR','HTF','LTF','Вывод']];
+fl().forEach(t=>{const a=db.acc.find(x=>x.id==t.acc)||{},r=rOf(t);rows.push([t.date,t.time,a.name,a.login,t.sym,t.dir,t.strat,t.model,t.session,t.kz?'да':'',t.psy,t.res,t.res=='OPEN'?'':n(t.pnl),n(t.risk),r==null?'':n(r.toFixed(2)),n(t.rr),(t.c||{}).htf,(t.c||{}).ltf,(t.c||{}).v])});
+return saveFile('sirius_journal.csv','\ufeff'+rows.map(r=>r.map(q).join(';')).join('\r\n'),'text/csv')}
+const del=id=>{if(confirm('Удалить сделку?')){db.trades=db.trades.filter(t=>t.id!=id);save();render()}};
+/* psychology */
+V.psy=()=>{const L=closed(),row=(k,x,mx)=>`<div class=row><div style="flex:1;min-width:0"><div>${k}</div><div class=sub>${x.n} сд. · WR ${x.wr.toFixed(0)}%</div>${bar(Math.abs(x.pnl)/mx*100,x.pnl>=0?'g':'r')}</div><b class="${cl(x.pnl)}" style="min-width:76px;text-align:right">${m(x.pnl)}</b></div>`;
+const P=PSY.map(k=>({k,...stat(L.filter(t=>t.psy==k))})),D=DAYS.map((k,i)=>({k,...stat(L.filter(t=>(new Date(t.date+'T00:00').getDay()+6)%7==i))})),H=[];for(let h=8;h<=22;h++)H.push({k:String(h).padStart(2,'0')+':00',...stat(L.filter(t=>+t.time.slice(0,2)==h))});
+const mx=a=>Math.max(1,...a.map(x=>Math.abs(x.pnl)));
+return`<div class="grid k3"><div class=card><h3>Тильт-Детектор</h3>${P.map(x=>row(x.k,x,mx(P))).join('')}</div><div class=card><h3>Аналитика по дням недели</h3>${D.map(x=>row(x.k,x,mx(D))).join('')}</div><div class=card><h3>Аналитика по часам (08:00–22:00)</h3>${H.map(x=>row(x.k,x,mx(H))).join('')}</div></div>`};
+/* constructor */
+V.cons=()=>{const list=(t,arr,key,cat)=>`<div class=card><h3>${t}</h3>${arr.map((x,i)=>`<div class=row><span>${x}</span><span><button class=btn style="padding:2px 8px" onclick="ed('${key}',${i},${cat?`'${cat}'`:'null'})">✎</button> <button class="btn r" style="padding:2px 8px" onclick="dl('${key}',${i},${cat?`'${cat}'`:'null'})">✕</button></span></div>`).join('')}<button class="btn" style="margin-top:8px" onclick="ad('${key}',${cat?`'${cat}'`:'null'})">+ Добавить</button></div>`;
+return`<div class="grid k2">${list('Стратегии',db.strat,'strat')}${list('Модели входа',db.model,'model')}</div><div class="grid k2">${Object.keys(db.ins).map(c=>list('Инструменты · '+c,db.ins[c],'ins',c)).join('')}</div>`};
+const arr=(k,c)=>c?db.ins[c]:db[k];
+const ed=(k,i,c)=>{const a=arr(k,c),v=prompt('Новое название:',a[i]);if(v){a[i]=v.trim();save();render()}},dl=(k,i,c)=>{if(confirm('Удалить?')){arr(k,c).splice(i,1);save();render()}},ad=(k,c)=>{const v=prompt('Название:');if(v){arr(k,c).push(v.trim());save();render()}};
+/* settings */
+V.set=()=>`<div class="grid k2"><div class=card><h3>Telegram Бот</h3><div class=f style="grid-template-columns:1fr"><label>Bot Token<input type=password id=tk value="${db.bot.tok}"></label><label>Chat / Channel ID<input type=text id=ch value="${db.bot.chat}"></label></div><div class=acts><button class="btn g" onclick="connect()">Подключить и Проверить Бота</button><button class=btn onclick="sync(1)">Синхронизировать сейчас</button><label class=btn>📥 Импорт истории из файла<input type=file hidden accept=".json,.txt" onchange="impHist(this.files[0])"></label></div><p class=sub style="margin-top:10px">${db.bot.ok?'✅ Бот Подключен':'Бот не подключен'}. Авто-синхронизация: каждые 5 минут (сделки из MT5 + облачная копия базы).</p></div>
+<div class=card><h3>Резервное копирование</h3><div class=acts style="margin:0"><button class="btn" onclick="backup()">☁️ Сохранить копию в Бот</button><button class="btn p" onclick="restore()">☁️ Восстановить базу из Бота</button><button class=btn onclick="expo()">Экспорт JSON</button><label class=btn>Импорт JSON<input type=file accept=.json hidden onchange="impo(this.files[0])"></label><button class=btn onclick="demo()">Демо-данные</button></div><p class=sub style="margin-top:10px">Данные (баланс, позиции, лимитки, история) шлёт советник SiriusSync.mq5 — см. README.</p></div></div>
+<div class=card style="margin-top:10px"><h3>Безопасность и уведомления</h3><div class=acts style="margin:0">${db.pin?`<button class=btn onclick="chPin()">Сменить PIN</button><button class="btn r" onclick="delPin()">Удалить PIN</button>${NB()?`<button class=btn onclick="tglBio()">🖐 Отпечаток: ${db.bio?'вкл':'выкл'}</button>`:''}`:`<button class="btn p" onclick="setPin()">🔒 Установить PIN-код</button>`}<button class=btn onclick="notify({res:'TP',sym:'XAUUSD',dir:'BUY',pnl:120,risk:60,acc:db.acc[0].id})">🔔 Проверить уведомление</button></div><p class=sub style="margin-top:10px">Уведомление о закрытии сделки приходит, когда приложение синхронизируется. Напоминание об итогах месяца — в последний день месяца в 20:00. Push при закрытом приложении: укажите NotifyChatID в роботе.</p></div>
+<div class=card style="margin-top:10px"><h3>Счета</h3>${db.acc.map(a=>`<div class=row><span><b>${a.name}</b> · $${a.bal.toLocaleString()} · MT5 ${a.login}</span><span><button class=btn onclick="editAcc('${a.id}')">✎</button> <button class="btn r" onclick="delAcc('${a.id}')">✕</button></span></div>`).join('')}</div>`;
+function addAcc(){const login=prompt('MT5 Login ID:');if(!login)return;const name=prompt('Название счета:','Счет '+login),bal=+prompt('Начальный баланс $:','10000');db.acc.push({id:uid(),name,bal:bal||0,login:login.trim()});save();render()}
+function editAcc(id){const a=db.acc.find(x=>x.id==id);a.name=prompt('Название:',a.name)||a.name;a.bal=+prompt('Начальный баланс $:',a.bal)||a.bal;a.login=prompt('MT5 Login ID:',a.login)||a.login;save();render()}
+const delAcc=id=>{if(confirm('Удалить счет и все его сделки?')){db.acc=db.acc.filter(a=>a.id!=id);db.trades=db.trades.filter(t=>t.acc!=id);S.acc='all';save();render()}};
+/* trade form */
+function tradeForm(){const n=new Date(),h=n.getHours(),ses=sess(iso(n),String(h).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')).s;F={dir:'BUY',res:'TP',rr:2,files:{}};
+const sel=(id,a,v)=>`<select id=${id}>${a.map(x=>`<option ${x==v?'selected':''}>${x}</option>`).join('')}</select>`;
+const ac=S.acc!='all'?S.acc:db.acc[0].id;
+$('#modal').innerHTML=`<div class=mb><h2>Новая сделка<button class=btn onclick=closeM()>✕</button></h2><div class=f>
+<label>Счет<select id=fa>${db.acc.map(a=>`<option value=${a.id} ${a.id==ac?'selected':''}>${a.name}</option>`).join('')}</select></label>
+<label>Сессия <span id=fk class=y></span>${sel('fs',SES,ses)}</label><label>Дата<input type=date id=fd value="${iso(n)}"></label><label>Время<input type=time id=ft value="${String(h).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')}"></label>
+<label>Инструмент<select id=fy>${Object.entries(db.ins).map(([c,a])=>`<optgroup label="${c}">${a.map(x=>`<option>${x}</option>`).join('')}</optgroup>`).join('')}</select></label>
+<label>Направление<div class=tg id=gd><button class="btn g on" data-v=BUY>BUY / LONG</button><button class="btn r" data-v=SELL>SELL / SHORT</button></div></label>
+<label class=w2>Результат<div class=tg id=gr><button class="btn g on" data-v=TP>TP</button><button class="btn r" data-v=SL>SL</button><button class="btn y" data-v=BU>BU (0$)</button><button class="btn bl" data-v=OPEN>OPEN</button></div></label>
+<label>RR (1:X)<input type=number step=.1 id=frr value=2></label><label>Быстрый выбор<div class=tg id=gq>${[1,2,3,4,5].map(x=>`<button class="btn ${x==2?'on y':''}" data-v=${x}>1:${x}</button>`).join('')}</div></label>
+<label>Риск $<input type=number id=frk value=100></label><label>Комиссия / Своп $<input type=number id=ffe value=0></label>
+<label class=w2>PnL $ вручную (пусто = авто)<input type=number id=fp placeholder="авто"></label>
+<label>Стратегия${sel('fst',db.strat)}</label><label>Модель входа${sel('fm',db.model)}</label><label class=w2>Психология${sel('fps',PSY)}</label>
+<label>HTF (H4/D1) скриншот<input type=file accept=image/* onchange="F.files.htf=this.files[0]"></label><label>Комментарий HTF<textarea id=ch1 rows=2></textarea></label>
+<label>LTF (M15/M5/M1) скриншот<input type=file accept=image/* onchange="F.files.ltf=this.files[0]"></label><label>Комментарий LTF<textarea id=cl1 rows=2></textarea></label>
+<label>Видео-разбор (MP4/WebM)<input type=file accept=video/* onchange="F.files.vid=this.files[0]"></label><label>Общий вывод<textarea id=cv1 rows=2></textarea></label></div>
+<div class=acts><button class="btn p" onclick=saveTrade()>Сохранить сделку</button></div></div>`;$('#modal').classList.add('on');
+const au=()=>{const x=sess($('#fd').value,$('#ft').value);$('#fs').value=x.s;$('#fk').textContent=x.kz?'· Kill Zone':''};$('#fd').onchange=$('#ft').onchange=au;au();
+const tg=(id,cb)=>$('#'+id).onclick=e=>{const b=e.target.closest('button');if(!b)return;$('#'+id).querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on');cb(b.dataset.v)};
+tg('gd',v=>F.dir=v);tg('gr',v=>F.res=v);$('#gq').onclick=e=>{const b=e.target.closest('button');if(b){$('#frr').value=b.dataset.v;$('#gq').querySelectorAll('button').forEach(x=>x.className='btn');b.className='btn on y'}}}
+const closeM=()=>{$('#modal').classList.remove('on');$('#modal').innerHTML=''};
+async function saveTrade(){const g=i=>$('#'+i).value;if(!g('fd')||!g('ft'))return toast('Укажите дату и время');const id=uid(),rr=+g('frr')||2,res=F.res,t={id,acc:g('fa'),date:g('fd'),time:g('ft'),session:g('fs'),sym:g('fy'),dir:F.dir,res,rr,risk:+g('frk')||0,fee:+g('ffe')||0,strat:g('fst'),model:g('fm'),psy:g('fps'),c:{htf:g('ch1'),ltf:g('cl1'),v:g('cv1')}};
+t.pnl=+pnlOf(res,t.risk,rr,t.fee,g('fp')).toFixed(2);if(res=='OPEN')t.pnl=0;{const x=sess(t.date,t.time);if(x.s==t.session)t.kz=x.kz?1:0;else t.sm=1}
+for(const k in F.files)if(F.files[k])await mset(id+':'+k,F.files[k]);db.trades.push(t);save();closeM();render()}
+/* review modal */
+async function review(id){const t=db.trades.find(x=>x.id==id),r=rOf(t),op=(a,v)=>(a.includes(v)?a:[v,...a]).map(x=>`<option ${x==v?'selected':''}>${x}</option>`).join(''),ck=k=>(t.c&&t.c[k])||'';
+const blk=(k,c,title,vid)=>`<div class=card style="margin-bottom:10px"><h3>${title}</h3><div id=m_${k}><div class=empty>Файл не прикреплен</div></div><label class=btn style="display:inline-flex;margin:8px 0">${vid?'Прикрепить видео':'Загрузить изображение'}<input type=file hidden accept="${vid?'video':'image'}/*" onchange="upl('${id}','${k}',this.files[0])"></label><textarea id=e_${k} rows=3 placeholder="Комментарий" style="width:100%;background:var(--bg);border:1px solid var(--b);border-radius:6px;padding:8px">${ck(c)}</textarea></div>`;
+$('#modal').innerHTML=`<div class=mb style="max-width:980px"><h2><span>${t.sym} <span class="bd ${t.dir=='BUY'?'g':'r'}">${t.dir}</span> <span class="bd ${RC[t.res]}">${t.res=='BU'?'БУ':t.res}</span> ${t.res=='OPEN'?'':`<span class="${cl(t.pnl)}">${m(t.pnl)}</span> <span class="${cl(r)}">${fR(r)}</span>`}</span><button class=btn onclick=closeM()>✕</button></h2><p class=sub style="margin-bottom:10px">${t.date} ${t.time} · ${accName(t.acc)} · план RR 1:${t.rr}${t.ent!=null?` · Вход ${t.ent} · SL ${t.sl||'—'} · TP ${t.tp||'—'} · Объём ${t.vol}`:''}</p>
+<div class=card style="margin-bottom:10px"><h3>Данные сделки</h3><div class=f><label>Стратегия<select id=e_st>${op(db.strat,t.strat)}</select></label><label>Модель входа<select id=e_md>${op(db.model,t.model)}</select></label><label>Психология<select id=e_ps>${op(PSY,t.psy)}</select></label><label>Сессия${t.kz?' · Kill Zone':''}<select id=e_s>${op(SES,t.session)}</select></label><label>Риск $<input type=number id=e_rk value="${t.risk}"></label><label>PnL $<input type=number id=e_pn value="${t.pnl}"></label></div><div class=acts><button class="btn p" onclick="saveRev('${id}')">Сохранить</button></div></div>${blk('htf','htf','Старший таймфрейм (HTF)')}${blk('ltf','ltf','Младший таймфрейм (LTF) — точка входа')}${blk('vid','v','Видео-разбор',1)}<div class=acts><button class="btn p" onclick="saveRev('${id}')">Сохранить</button></div></div>`;$('#modal').classList.add('on');
+for(const k of['htf','ltf','vid']){const f=await mget(id+':'+k);if(f){const u=URL.createObjectURL(f);$('#m_'+k).innerHTML=k=='vid'?`<video src="${u}" controls></video>`:`<img class=shot src="${u}" onclick="window.open('${u}')">`}}}
+function saveRev(id,q){const t=db.trades.find(x=>x.id==id),g=i=>$('#'+i)?$('#'+i).value:'';if(!$('#e_st'))return;t.strat=g('e_st');t.model=g('e_md');t.psy=g('e_ps');
+const ns=g('e_s');if(ns!=t.session){t.session=ns;const x=sess(t.date,t.time);t.kz=x.s==ns&&x.kz?1:0;t.sm=1}
+t.risk=+g('e_rk')||0;if(t.res!='OPEN'&&g('e_pn')!=='')t.pnl=+g('e_pn');t.c=t.c||{};t.c.htf=g('e_htf');t.c.ltf=g('e_ltf');t.c.v=g('e_vid');save();if(!q){closeM();render()}}
+async function upl(id,k,f){if(f){saveRev(id,1);await mset(id+':'+k,f);review(id)}}
+/* telegram */
+const tg=(meth,body,fd)=>fetch(`https://api.telegram.org/bot${db.bot.tok}/${meth}`,fd?{method:'POST',body:fd}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body||{})}).then(r=>r.json());
+async function connect(){db.bot.tok=$('#tk').value.trim();db.bot.chat=$('#ch').value.trim();try{const r=await tg('getMe');db.bot.ok=!!r.ok;if(r.ok){await tg('deleteWebhook',{drop_pending_updates:false});const q=await tg('sendMessage',{chat_id:db.bot.chat,text:'✅ SIRIUS TR JOURNAL подключен'});if(!q.ok)toast('Проверьте Chat ID / права бота: '+q.description)}else toast('Ошибка: '+r.description)}catch(e){db.bot.ok=0;toast('Нет связи с Telegram')}save();render();if(db.bot.ok)sync(1)}
+const lastSun=(y,m)=>{const d=new Date(Date.UTC(y,m+1,0));return d.getUTCDate()-d.getUTCDay()},nthSun=(y,m,n)=>1+(7-new Date(Date.UTC(y,m,1)).getUTCDay())%7+(n-1)*7;
+function sess(ds,ts){const[y,mo,da]=ds.split('-').map(Number),k=mo*100+da,eu=k>=300+lastSun(y,2)&&k<1000+lastSun(y,9)?1:0,us=k>=300+nthSun(y,2,2)&&k<1100+nthSun(y,10,1)?1:0,[h,mi]=ts.split(':').map(Number),x=h*60+mi,A=300,F=720-60*eu,L=780-60*eu,N=1080-60*us;
+if(x>=N)return{s:SES[3],kz:x<N+240};if(x>=L)return{s:SES[2],kz:x<L+180};if(x>=F)return{s:SES[1],kz:x<F+30};return{s:SES[0],kz:x>=A&&x<A+180}}
+const hs=x=>{let h=5381;for(let i=0;i<x.length;i++)h=(h*33^x.charCodeAt(i))|0;return h},sesOf=h=>h>=3&&h<9?SES[0]:h<11?SES[1]:h<16?SES[2]:SES[3];
+function acct(lg){lg=String(lg||'');if(!lg)return null;let a=db.acc.find(x=>x.login==lg);if(!a){a={id:uid(),name:'MT5 '+lg,bal:0,login:lg};db.acc.push(a)}return a}
+function ingest(j,mid,ts,live){const a=acct(j.account_id||j.account||j.login);if(!a)return 0;const lg=a.login;mid=mid==null?'':'m'+mid;if(mid&&db.trades.some(t=>t.mid==mid))return 0;
+const d=ts?new Date(ts*1000):new Date(),pn=j.pnl??j.profit,rs=String(j.result||j.status||'').toUpperCase(),tn=j.ticket||j.order||j.deal,tk=tn?lg+':'+tn:'',
+res=/^(TP|WIN|PROFIT)/.test(rs)?'TP':/^(SL|LOSS)/.test(rs)?'SL':/^(BU|BE)/.test(rs)?'BU':/OPEN/.test(rs)||pn==null||pn===''?'OPEN':pn>0?'TP':pn<0?'SL':'BU',rr=+j.rr||2,risk=+j.risk||0,fee=+j.fee||0;
+let t=tk&&db.trades.find(x=>x.tk==tk);if(t&&t.res!='OPEN'&&res=='OPEN')return 0;const nw=!t;if(nw)t={id:uid(),tk,mid,acc:a.id,date:j.date||iso(d),time:j.time||d.toTimeString().slice(0,5),sym:j.symbol||j.sym||'XAUUSD',dir:/sell|short/i.test(j.dir||j.type||j.direction||'')?'SELL':'BUY',strat:j.strategy||db.strat[0],model:j.model||db.model[0],psy:j.psy||PSY[0],c:{}},(x=>{t.session=x.s;t.kz=x.kz?1:0})(sess(t.date,t.time));
+const prev=t.res;Object.assign(t,{res,rr,risk:risk||t.risk||0,fee});if(j.vol!=null)Object.assign(t,{vol:j.vol,ent:j.open,sl:j.sl,tp:j.tp,fl:j.fl});t.pnl=res=='OPEN'?0:+pnlOf(res,risk,rr,fee,pn).toFixed(2);if(nw)db.trades.push(t);if(live&&res!='OPEN'&&(nw||prev=='OPEN'))notify(t);return 1}
+function handle(j,mid,ts){if(!j||typeof j!='object')return 0;const k=j.k;
+if(k=='snap'||k=='ords'||k=='hist'){const a=acct(j.account_id);if(!a)return 0;db.snap=db.snap||{};const s=db.snap[a.login]=db.snap[a.login]||{};
+if(k=='hist'){if(j.dep!=null&&!a.bal)a.bal=+j.dep;const live=(j.t||[]).length==1&&j.dep==null&&ts&&Date.now()/1000-ts<1500;let c=0;(j.t||[]).forEach(x=>c+=ingest({...x,account_id:a.login},null,ts,live));return c}
+if(ts&&s['t'+k]&&ts<s['t'+k])return 0;s['t'+k]=ts||0;
+if(k=='snap'){Object.assign(s,{bal:j.bal,eq:j.eq,mg:j.mg,fr:j.fr,pl:j.pl,cur:j.cur,ts:Date.now()});(j.pos||[]).forEach(p=>ingest({...p,account_id:a.login,result:'OPEN'},null,ts));return 0}
+s.ord=j.o||[];return 0}
+return ingest(j,mid,ts)}
+function ingestText(tx,mid,ts){let o=[];const add=x=>Array.isArray(x)?o.push(...x):o.push(x);try{add(JSON.parse(tx.trim()))}catch(e){tx.split('\n').forEach(l=>{try{add(JSON.parse(l.trim()))}catch(e){(l.match(/\{[^{}]*\}/g)||[]).forEach(x=>{try{add(JSON.parse(x))}catch(e){}})}})}let c=0;o.forEach((j,i)=>c+=handle(j,i?mid+'.'+i:mid,ts));return c}
+async function sync(man){if(sync.b)return;sync.b=1;try{await sync0(man)}finally{sync.b=0}}
+async function sync0(man){if(!db.bot.ok)return man&&toast('Сначала подключите бота');let n=0,got=0;try{for(let i=0;i<60;i++){const r=await tg('getUpdates',{offset:db.bot.off+1,limit:100,timeout:0});if(!r.ok){man&&toast('Ошибка Telegram: '+r.description);break}if(!r.result.length)break;r.result.forEach(u=>{got++;db.bot.off=Math.max(db.bot.off,u.update_id);const p=u.message||u.channel_post;if(p&&p.text)n+=ingestText(p.text,p.message_id,p.date)});save()}
+if(n||got||man)render();await backup(1);man&&toast('Сообщений из бота: '+got+' · сделок: '+n)}catch(e){man&&toast('Нет связи с Telegram')}}
+async function impHist(f){if(!f)return;const tx=await f.text();let c=0;try{const j=JSON.parse(tx);(j.messages||[]).forEach(x=>{const s=Array.isArray(x.text)?x.text.map(y=>y.text||y).join(''):x.text;if(s)c+=ingestText(s,x.id,+x.date_unixtime||Date.parse(x.date)/1000)})}catch(e){c=ingestText(tx,'f'+tx.length,0)}save();render();toast('Импортировано сделок: '+c)}
+async function backup(q){if(!db.bot.ok)return q||toast('Подключите бота');const s=JSON.stringify({...db,bot:{...db.bot,tok:'',hash:0,off:0}}),hh=hs(s);if(q&&hh==db.bot.hash)return;const fd=new FormData();fd.append('chat_id',db.bot.chat);fd.append('caption','SIRIUS backup '+new Date().toISOString());fd.append('document',new Blob([s],{type:'application/json'}),'sirius_backup.json');
+try{const r=await tg('sendDocument',0,fd);if(r.ok){db.bot.hash=hh;save();await tg('pinChatMessage',{chat_id:db.bot.chat,message_id:r.result.message_id,disable_notification:true});q||toast('Копия сохранена в Telegram')}else q||toast(r.description)}catch(e){}}
+async function restore(){const tok=prompt('Bot Token:',db.bot.tok),ch=prompt('Chat / Channel ID:',db.bot.chat);if(!tok||!ch)return;db.bot.tok=tok;db.bot.chat=ch;try{const c=await tg('getChat',{chat_id:ch}),p=c.result&&c.result.pinned_message;if(!p||!p.document)return toast('В чате нет закрепленной копии базы');const f=await tg('getFile',{file_id:p.document.file_id}),j=await fetch(`https://api.telegram.org/file/bot${tok}/${f.result.file_path}`).then(r=>r.json());db=j;db.bot.tok=tok;db.bot.chat=ch;db.bot.ok=1;save();render();toast('База восстановлена')}catch(e){toast('Не удалось восстановить')}}
+async function saveFile(name,data,mime){const P=window.Capacitor&&Capacitor.Plugins;try{if(P&&P.Filesystem&&P.Share){const r=await P.Filesystem.writeFile({path:name,data,directory:'CACHE',encoding:'utf8'});return P.Share.share({title:name,url:r.uri})}}catch(e){}const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:mime}));a.download=name;a.click()}
+const expo=()=>saveFile('sirius_journal.json',JSON.stringify(db),'application/json');
+const impo=f=>f&&f.text().then(x=>{db=JSON.parse(x);save();render()});
+function demo(){const ac=db.acc,ins=Object.values(db.ins).flat();for(let i=0;i<70;i++){const d=new Date(Date.now()-Math.random()*60*864e5);if(d.getDay()%6==0)continue;const r=Math.random(),res=r<.45?'TP':r<.8?'SL':'BU',rr=[1,2,2,3][i%4],risk=[50,100,100,200][i%4],h=8+(Math.random()*14|0),
+t={id:uid(),acc:ac[i%3].id,date:iso(d),time:String(h).padStart(2,'0')+':'+String(Math.random()*60|0).padStart(2,'0'),session:h<10?SES[1]:h<15?SES[2]:h<17?SES[2]:SES[3],sym:ins[Math.random()*ins.length|0],dir:Math.random()<.5?'BUY':'SELL',res,rr,risk,fee:2,strat:db.strat[Math.random()*9|0],model:db.model[Math.random()*11|0],psy:PSY[Math.random()<.6?0:1+(Math.random()*4|0)],c:{}};t.pnl=+pnlOf(res,risk,rr,2,'').toFixed(2);db.trades.push(t)}save();render()}
+setInterval(()=>{if(--timer<0){timer=300;sync()}if(S.tab!='set'||1){const e=document.querySelector('.top .sub');if(e)e.textContent='Синхр. через '+String(timer/60|0).padStart(2,'0')+':'+String(timer%60).padStart(2,'0')}},1000);
+const FP='<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 11v3.5c0 2-.5 3.5-1.5 5"/><path d="M8.5 20c1-1.6 1.5-3.5 1.5-5.5V11a2 2 0 1 1 4 0v3.5c0 1.8-.3 3.3-.9 4.6"/><path d="M6 17c.6-1.4 1-3 1-4.5V11a5 5 0 0 1 10 0v1.5c0 1.5-.1 2.7-.4 3.8"/><path d="M4 12.5V11a8 8 0 0 1 16 0v1"/></svg>';
+const sha=async x=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode('sirius:'+x)))].map(b=>b.toString(16).padStart(2,'0')).join(''),NB=()=>window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.NativeBiometric,LN=()=>window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.LocalNotifications;
+let pb='',lm='unlock',tmp='',fails=0,wait=0,hiddenAt=0,grace=0,after=null;
+function lockUI(msg,err){const T={unlock:'Введите PIN-код',set1:'Придумайте PIN-код',set2:'Повторите PIN-код',chk:'Введите текущий PIN'}[lm],key=k=>`<button onclick="pk('${k}')">${k}</button>`;
+$('#lock').className='on';$('#lock').innerHTML=`<div class=lk><div class=brand style="text-align:center;padding:0 0 22px">SIRIUS TR JOURNAL<small>Trading analytics</small></div><div class="sub ${err?'r':''}" style="margin-bottom:14px">${msg||T}</div><div class="dots ${err?'sh':''}">${[0,1,2,3].map(i=>`<i class="${i<pb.length?'on':''}"></i>`).join('')}</div><div class=pad>${[1,2,3,4,5,6,7,8,9].map(key).join('')}<button onclick="pk('bio')" style="${db.bio&&NB()&&lm=='unlock'?'':'visibility:hidden'}">${FP}</button>${key(0)}<button onclick="pk('del')">⌫</button></div>${lm!='unlock'?'<button class=btn style="margin-top:18px" onclick="lockOff()">Отмена</button>':''}</div>`}
+const lockOff=()=>{$('#lock').className='';$('#lock').innerHTML='';pb=''};
+function lockOn(m,cb){lm=m;pb='';after=cb||null;lockUI();if(m=='unlock'&&db.bio)setTimeout(bioAuth,300)}
+async function bioAuth(){const N=NB();if(!N||lm!='unlock')return;grace=Date.now()+60000;try{await N.verifyIdentity({reason:'Вход в SIRIUS TR JOURNAL',title:'SIRIUS TR JOURNAL',subtitle:'Приложите палец',useFallback:false});lockOff()}catch(e){}}
+async function pk(k){if(k=='bio')return bioAuth();if(k=='del'){pb=pb.slice(0,-1);return lockUI()}if(Date.now()<wait||pb.length>=4)return;pb+=k;lockUI();if(pb.length<4)return;const h=await sha(pb);
+if(lm=='set1'){tmp=pb;pb='';lm='set2';return setTimeout(()=>lockUI(),150)}
+if(lm=='set2'){if(pb==tmp){db.pin=h;save();lockOff();render();return}pb='';lm='set1';return lockUI('PIN не совпал. Начните заново',1)}
+if(h==db.pin){fails=0;const f=after;after=null;lockOff();if(f)f();return}
+fails++;pb='';if(fails>=5){wait=Date.now()+30000;fails=0;return lockUI('Слишком много попыток. Подождите 30 сек',1)}lockUI('Неверный PIN',1)}
+const setPin=()=>lockOn('set1'),chPin=()=>lockOn('chk',()=>lockOn('set1')),delPin=()=>lockOn('chk',()=>{db.pin='';db.bio=0;save();render()}),tglBio=()=>{db.bio=db.bio?0:1;save();render()};
+function notify(t){const P=LN();if(!P)return;const r=rOf(t);P.schedule({notifications:[{id:Date.now()%2147483000,title:(t.res=='TP'?'✅ TP':t.res=='SL'?'❌ SL':'🟡 БУ')+' · '+t.sym+' '+t.dir,body:m(t.pnl)+(r!=null?' · '+fR(r):'')+' · '+accName(t.acc)}]}).catch(()=>{})}
+async function notifInit(){const P=LN();if(!P)return;try{await P.requestPermissions();const n=new Date(),ids=[],ns=[];for(let i=0;i<12;i++){ids.push({id:9000+i});const d=new Date(n.getFullYear(),n.getMonth()+i+1,0,20,0,0);if(d>n)ns.push({id:9000+i,title:'📊 Итоги месяца',body:'Месяц заканчивается — проверьте статистику: винрейт, R и просадку в журнале.',schedule:{at:d,allowWhileIdle:true}})}await P.cancel({notifications:ids});await P.schedule({notifications:ns})}catch(e){}}
+document.addEventListener('click',e=>{if(e.target.closest&&e.target.closest('label.btn'))grace=Date.now()+180000},true);
+$('#modal').onclick=e=>{if(e.target.id=='modal')closeM()};
+db.trades.forEach(t=>{if(!t.sm){const x=sess(t.date,t.time);t.session=x.s;t.kz=x.kz?1:0}});save();
+if(db.pin)lockOn('unlock');render();setTimeout(()=>sync(),1500);setTimeout(notifInit,3000);
+document.addEventListener('visibilitychange',()=>{if(document.hidden){hiddenAt=Date.now()}else{if(db.pin&&Date.now()>grace&&Date.now()-hiddenAt>30000&&!$('#lock').className)lockOn('unlock');sync()}});
+</script></body></html>
